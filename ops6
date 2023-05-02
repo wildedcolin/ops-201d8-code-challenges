@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Define an array of files/directories to check
+files=( "example1.txt" "example1_dir" )
+
+# Loop through each file/directory in the array
+for f1 in "${files[@]}"
+do
+    # Check if the file/directory exists
+    if [ -e "$f1" ]; then
+        echo "$f1 already exists."
+    else
+        # If it doesn't exist, create it
+        echo "$f1 does not exist. Creating $f1..."
+        
+        # Check if it is a file or directory
+        if [ "${f:(-1)}" == "/" ]; then
+            mkdir "$f1"
+        else
+            touch "$f1"
+            echo "This is an example file." > "$f1"
+        fi
+    fi
+done
