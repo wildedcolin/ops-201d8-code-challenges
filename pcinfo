@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "-------- SYSTEM INFORMATION --------"
+echo "Computer Name:"
+sudo lshw -short | grep -E "system product|product" | awk '{print $2}'
+
+echo "-------- CPU INFORMATION --------"
+sudo lshw -class cpu | grep -E "product|vendor|physical id|bus info|width"
+
+echo "-------- RAM INFORMATION --------"
+sudo lshw -class memory | grep -E "description|physical id|size"
+
+echo "-------- DISPLAY ADAPTER INFORMATION --------"
+sudo lshw -class display | grep -E "description|product|vendor|physical id|bus info|width|clock|capabilities|configuration|resources"
+
+echo "-------- NETWORK ADAPTER INFORMATION --------"
+sudo lshw -class network | grep -E "description|product|vendor|physical id|bus info|logical name|version|serial|size|capacity|width|clock|capabilities|configuration|resources"
