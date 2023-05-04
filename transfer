@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Set source and destination directories
+src_dir="/path/to/source/directory"
+dest_dir="/path/to/destination/directory2"
+
+# Run ROBOCOPY command to copy files
+ROBOCOPY "$src_dir" "$dest_dir" /E
+
+# Check if copy was successful
+if [ $? -eq 0 ]; then
+  echo "Files copied successfully"
+else
+  echo "Error: Copy failed"
+fi
