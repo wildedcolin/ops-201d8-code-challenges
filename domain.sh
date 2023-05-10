@@ -1,20 +1,27 @@
 #!/bin/bash
 
-# Prompt user to enter domain name
-read -p "Enter domain name: " domain
+# Take user input
+read -p "Enter a domain name: " domain
 
-# Display whois information
-echo -e "\nWHOIS information for $domain:\n"
-whois $domain
+# Run whois
+echo "Running whois for $domain..."
+whois "$domain" > "$domain.txt"
 
-# Display DNS records using dig
-echo -e "\nDNS records for $domain using dig:\n"
-dig $domain any +noall +answer
+# Run dig
+echo "Running dig for $domain..."
+dig "$domain" >> "$domain.txt"
 
-# Display DNS records using host
-echo -e "\nDNS records for $domain using host:\n"
-host -a $domain
+# Run host
+echo "Running host for $domain..."
+host "$domain" >> "$domain.txt"
 
-# Display DNS records using nslookup
-echo -e "\nDNS records for $domain using nslookup:\n"
-nslookup -type=any $domain
+# Run nslookup
+echo "Running nslookup for $domain..."
+nslookup "$domain" >> "$domain.txt"
+
+# Display domain information from nslookup
+echo "Domain information for $domain:"
+nslookup -type=any "$domain"
+
+# Output results to a file
+echo "Results saved to $domain.txt"
