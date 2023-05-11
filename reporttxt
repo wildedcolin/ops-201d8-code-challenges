@@ -1,0 +1,11 @@
+# Create a local file called network_report.txt that holds the contents of an ipconfig /all command.
+ipconfig /all > network_report.txt
+
+# Use Select-String to search network_report.txt and return only the IPv4 address.
+$ipv4Address = Get-Content network_report.txt | Select-String -Pattern 'IPv4 Address' | ForEach-Object { $_.ToString().Split(': ')[-1] }
+
+# Display the IPv4 address.
+Write-Host "IPv4 Address: $ipv4Address"
+
+# Remove the network_report.txt when you are finished searching it.
+Remove-Item network_report.txt
