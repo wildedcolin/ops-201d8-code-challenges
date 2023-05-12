@@ -1,0 +1,19 @@
+# Enable File and Printer Sharing
+New-NetFirewallRule -DisplayName "File and Printer Sharing (SMB-In)" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Allow
+
+# Allow ICMP traffic
+New-NetFirewallRule -DisplayName "ICMPv4" -Protocol ICMPv4 -IcmpType 8 -Action Allow
+
+# Enable Remote management
+Set-Service sshd -StartupType Automatic
+Start-Service sshd
+
+# Remove bloatware
+Get-AppxPackage *officehub* | Remove-AppxPackage
+Get-AppxPackage *solitairecollection* | Remove-AppxPackage
+
+# Enable Hyper-V
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+# Disable SMBv1
+Set-SmbServerConfiguration -EnableSMB1Protocol $false
