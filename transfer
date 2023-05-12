@@ -1,15 +1,15 @@
-#!/bin/bash
+$src_dir = "C:\path\to\source\directory"
+$dest_dir = "C:\path\to\destination\directory2"
 
-# Set source and destination directories
-src_dir="/path/to/source/directory"
-dest_dir="/path/to/destination/directory2"
+$watcher = New-Object System.IO.FileSystemWatcher
+$watcher.Path = $src_dir
+$watcher.IncludeSubdirectories = $true
+$watcher.EnableRaisingEvents = $true
 
-# Run ROBOCOPY command to copy files
-ROBOCOPY "$src_dir" "$dest_dir" /E
+$action = {
+    $path = $Event.SourceEventArgs.FullPath
+    $dest_path = $path -replace [regex]::Escape($src_dir), $dest_dir
+    robocopy $path $dest_path /COPYALL /R:3 /W:5 /MT
+}
 
-# Check if copy was successful
-if [ $? -eq 0 ]; then
-  echo "Files copied successfully"
-else
-  echo "Error: Copy failed"
-fi
+Register-ObjectEvent $watcher "Created" -Action $action
